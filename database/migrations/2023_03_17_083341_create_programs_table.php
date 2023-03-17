@@ -21,9 +21,6 @@ return new class extends Migration
             $table->string('id_jadwal');
             $table->timestamps();
         });
-        Schema::table('programs', function (Blueprint $table) {
-            $table->foreign('id_jadwal')->references('id')->on('jadwals');
-        });
         Schema::create('program_details', function (Blueprint $table) {
             $table->string('id');
             $table->string('id_siswa');

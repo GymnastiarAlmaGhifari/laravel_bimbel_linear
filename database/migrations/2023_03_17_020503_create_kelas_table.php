@@ -50,6 +50,9 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('moduls', function (Blueprint $table) {
+            $table->dropForeign('moduls_mapel_foreign');
+        });
         Schema::table('siswas', function (Blueprint $table) {
             $table->dropForeign('siswas_kelas_foreign');
         });
