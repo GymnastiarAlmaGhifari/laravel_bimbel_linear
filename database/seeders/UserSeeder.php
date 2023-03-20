@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $admin = User::create([
+
             'name' => "admin",
             'email' => "admin@example.com",
             'email_verified_at' => Carbon::now(),
@@ -46,8 +47,8 @@ class UserSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-        $super->assignRole('super');
         $admin->assignRole('admin');
+        $super->assignRole('super');
         $tentor->assignRole('tentor');
     }
-}
+};
