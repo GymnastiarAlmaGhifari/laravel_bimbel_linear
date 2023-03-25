@@ -50,6 +50,14 @@ export default function Authenticated({ auth, header, children }) {
                                         >
                                             Role
                                         </NavLink>
+                                        <NavLink
+                                            href={route("users.index")}
+                                            active={route().current(
+                                                "users.index"
+                                            )}
+                                        >
+                                            Users
+                                        </NavLink>
                                     </>
                                 )}
                                 {/* can:(manage selling) */}
