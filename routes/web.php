@@ -3,6 +3,8 @@
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuperController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,6 +41,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:super'])->group(function () {
     Route::get('/super', [SuperController::class, 'index'])->name('super.index');
+    Route::resource('/role', RoleController::class);
+    Route::resource('/users', UserController::class);
 });
 
 // buat prefix dan middleware can:manage selling

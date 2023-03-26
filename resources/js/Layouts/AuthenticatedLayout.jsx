@@ -33,12 +33,32 @@ export default function Authenticated({ auth, header, children }) {
                                 </NavLink>
 
                                 {hasRole("super") && (
-                                    <NavLink
-                                        href={route("super.index")}
-                                        active={route().current("super.index")}
-                                    >
-                                        Super
-                                    </NavLink>
+                                    <>
+                                        <NavLink
+                                            href={route("super.index")}
+                                            active={route().current(
+                                                "super.index"
+                                            )}
+                                        >
+                                            Super
+                                        </NavLink>
+                                        <NavLink
+                                            href={route("role.index")}
+                                            active={route().current(
+                                                "role.index"
+                                            )}
+                                        >
+                                            Role
+                                        </NavLink>
+                                        <NavLink
+                                            href={route("users.index")}
+                                            active={route().current(
+                                                "users.index"
+                                            )}
+                                        >
+                                            Users
+                                        </NavLink>
+                                    </>
                                 )}
                                 {/* can:(manage selling) */}
                                 {hasPermission("manage delivery") && (
