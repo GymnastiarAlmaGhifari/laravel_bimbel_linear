@@ -60,10 +60,10 @@ const Create = ({ auth, permissions }) => {
                                     autoFocus
                                     autoComplete="off"
                                 />
+                                {/* keluarkan error */}
                                 <InputError
+                                    message={errors.name}
                                     className="mt-2"
-                                    errors={errors}
-                                    field="name"
                                 />
                             </div>
                             <div className="mt-4">
@@ -94,11 +94,6 @@ const Create = ({ auth, permissions }) => {
                                         </label>
                                     ))}
                                 </div>
-                                <InputError
-                                    className="mt-2"
-                                    errors={errors}
-                                    field="permissions"
-                                />
                             </div>
                             <div className="flex items-center mt-4">
                                 <PrimaryButton
