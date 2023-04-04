@@ -1,19 +1,41 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
+import { Fragment, useState } from "react";
+import Modal from "@/Components/Modal";
+import Create from "./Create";
+import Edit from "./Edit";
 
-const Index = ({ auth, errors, roles }) => {
+const Index = ({ auth, errors, roles, permissions }) => {
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editingRole, setEditingRole] = useState(null);
+
+    const handleShowCreateModal = () => {
+        setShowCreateModal(true);
+    };
+
+    const handleShowEditModal = (role) => {
+        setEditingRole(role);
+        setShowEditModal(true);
+    };
     return (
         <AuthenticatedLayout auth={auth} errors={errors}>
             <Head title="Dashboard" />
             {/* buat table */}
+
             <div className="container mx-auto">
                 <h1 className="text-2xl font-bold mb-4">Roles</h1>
-                <Link
-                    href="role/create"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                >
-                    Create Role
-                </Link>
+
+                {/* create with modal from call Create from create.jsx */}
+                <div className="flex justify-end mb-4">
+                    <button
+                        onClick={handleShowCreateModal}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                        Create Role
+                    </button>
+                </div>
+
                 <table className="w-full table-fixed">
                     <thead>
                         <tr className="bg-gray-200 text-gray-600 text-sm font-bold uppercase">
@@ -51,17 +73,22 @@ const Index = ({ auth, errors, roles }) => {
                                     ))}
                                 </td>
 
-                                {/* actions */}
+                                {/* actions dengan edit delet dengan modal */}
                                 <td className="py-3 px-2 text-left">
                                     <Link
-                                        href={`roles/${role.id}/edit`}
-                                        className="text-indigo-600 hover:text-indigo-900 mr-2"
+                                        onClick={() =>
+                                            handleShowEditModal(role)
+                                        }
+                                        // href={`role/${role.id}/edit`}
+                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                        preserveState={true}
                                     >
                                         Edit
                                     </Link>
+
                                     <Link
-                                        href={`roles/${role.id}/delete`}
-                                        className="text-red-600 hover:text-red-900 mr-2"
+                                        href={`role/${role.id}/delete`}
+                                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                                     >
                                         Delete
                                     </Link>
@@ -70,8 +97,29 @@ const Index = ({ auth, errors, roles }) => {
                         ))}
                     </tbody>
                 </table>
+
+                <Modal
+                    show={showCreateModal}
+                    onClose={() => setShowCreateModal(false)}
+                >
+                    <Create
+                        permissions={permissions}
+                        onClose={() => setShowCreateModal(false)}
+                    />
+                </Modal>
+                <Modal
+                    show={showEditModal}
+                    onClose={() => setShowEditModal(false)}
+                >
+                    <Edit
+                        role={editingRole}
+                        permissions={permissions}
+                        onClose={() => setShowEditModal(false)}
+                    />
+                </Modal>
             </div>
         </AuthenticatedLayout>
     );
 };
+
 export default Index;

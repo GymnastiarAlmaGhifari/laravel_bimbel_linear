@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRoleRequest;
+use App\Http\Requests\Role\UpdateRoleRequest;
 use App\Http\Resources\PermissionResource;
 use App\Http\Resources\RoleResource;
 use Illuminate\Http\Request;
@@ -21,13 +22,6 @@ class RoleController extends Controller
         ]);
     }
 
-    public function create(): Response
-    {
-        return Inertia::render('Role/Create', [
-            'permissions' => PermissionResource::collection(Permission::all())
-        ]);
-    }
-
     public function store(CreateRoleRequest $request)
     {
         $role = Role::create(['name' => $request->name]);
@@ -36,5 +30,26 @@ class RoleController extends Controller
         }
 
         return redirect()->route('role.index');
+    }
+    public function edit(Role $role): Response
+    {
+        $permissions = PermissionResource::collection(Permission::all());
+        $role->load('permissions');
+
+        return Inertia::render('Role/Edit', [
+            'role' => new RoleResource($role),
+            'permissions' => $permissions,
+            //show role id
+            'id' => $role->id,
+            'name' => $role->name,
+        ]);
+    }
+
+    public function update(UpdateRoleRequest $request, Role $role)
+    {
+        $role->update(['name' => $request->name]);
+        $role->syncPermissions($request->permissions);
+
+        return redirect()->back()->with('success', 'Role has been updated.');
     }
 }
