@@ -12,12 +12,15 @@ const Edit = ({ role, permissions, onClose, onEditSuccess }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await put(route("role.update", role.id));
-            onEditSuccess();
-        } catch (error) {
+            await put(route("role.update", role.id), {
+                onSuccess: () => {
+                    onEditSuccess();
+                    onClose();
+                },
+            });
+        } catch (errors) {
             console.log(error);
         }
-        onClose();
     };
 
     const handlePermissionChange = (e) => {
@@ -41,17 +44,15 @@ const Edit = ({ role, permissions, onClose, onEditSuccess }) => {
                 <InputLabel htmlFor="name" label="Name" />
                 <input
                     id="name"
-                    className={`input-text ${
-                        errors.name ? "input-invalid" : ""
-                    }`}
                     type="text"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     name="name"
                     value={data.name}
                     onChange={(e) => setData("name", e.target.value)}
-                    required
+                    autoComplete="off"
                     autoFocus
                 />
-                {errors.name && <InputError>{errors.name}</InputError>}
+                <InputError message={errors.name} className="mt-2" />
 
                 <InputLabel htmlFor="permissions" label="Permissions" />
                 {permissions.map((permission) => (

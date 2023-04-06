@@ -27,16 +27,11 @@ class RoleController extends Controller
         if ($request->permissions) {
             $role->syncPermissions($request->permissions);
         }
-
-        return redirect()->route('role.index');
     }
     public function update(UpdateRoleRequest $request, Role $role)
     {
         $role->update(['name' => $request->name]);
         $role->syncPermissions($request->permissions);
-
-        // back index and show success message
-        return redirect()->route('role.index')->with('success', 'Role has been updated.');
     }
 
     public function destroy(Role $role)

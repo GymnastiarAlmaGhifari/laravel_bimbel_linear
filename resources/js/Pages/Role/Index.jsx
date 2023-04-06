@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Modal from "@/Components/Modal";
 import Create from "./Create";
 import Edit from "./Edit";
@@ -10,11 +10,19 @@ const Index = ({ auth, errors, roles, permissions }) => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [editingRole, setEditingRole] = useState(null);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+    useEffect(() => {
+        if (showSuccessMessage) {
+            const timeoutId = setTimeout(() => {
+                setShowSuccessMessage(false);
+            }, 3000);
+
+            return () => clearTimeout(timeoutId);
+        }
+    }, [showSuccessMessage]);
+
     const handleEditSuccess = () => {
         setShowSuccessMessage(true);
-        setTimeout(() => {
-            setShowSuccessMessage(false);
-        }, 3000); // hide the message after 3 seconds
     };
 
     const handleShowCreateModal = () => {
