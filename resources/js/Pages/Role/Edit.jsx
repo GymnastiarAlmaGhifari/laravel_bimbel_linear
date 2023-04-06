@@ -2,17 +2,21 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
-import { useState } from "react";
 
-const Edit = ({ role, permissions, onClose, show, roleid }) => {
+const Edit = ({ role, permissions, onClose, onEditSuccess }) => {
     const { data, setData, errors, put, processing } = useForm({
         name: role.name,
         permissions: role.permissions.map((permission) => permission.id), // use the IDs instead of the whole objects
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        put(route("role.update", role.id));
+        try {
+            await put(route("role.update", role.id));
+            onEditSuccess();
+        } catch (error) {
+            console.log(error);
+        }
         onClose();
     };
 
@@ -76,7 +80,9 @@ const Edit = ({ role, permissions, onClose, show, roleid }) => {
                     >
                         Cancel
                     </Link>
-                    <PrimaryButton processing={processing}>Save</PrimaryButton>
+                    <PrimaryButton processing={processing.toString()}>
+                        Update
+                    </PrimaryButton>
                 </div>
             </form>
         </div>

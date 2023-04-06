@@ -35,6 +35,14 @@ class RoleController extends Controller
         $role->update(['name' => $request->name]);
         $role->syncPermissions($request->permissions);
 
-        return redirect()->back()->with('success', 'Role has been updated.');
+        // back index and show success message
+        return redirect()->route('role.index')->with('success', 'Role has been updated.');
+    }
+
+    public function destroy(Role $role)
+    {
+        $role->delete();
+
+        return redirect()->back()->with('success', 'Role has been deleted.');
     }
 }

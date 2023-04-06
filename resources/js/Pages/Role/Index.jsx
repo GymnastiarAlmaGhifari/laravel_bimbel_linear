@@ -9,6 +9,13 @@ const Index = ({ auth, errors, roles, permissions }) => {
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [editingRole, setEditingRole] = useState(null);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const handleEditSuccess = () => {
+        setShowSuccessMessage(true);
+        setTimeout(() => {
+            setShowSuccessMessage(false);
+        }, 3000); // hide the message after 3 seconds
+    };
 
     const handleShowCreateModal = () => {
         setShowCreateModal(true);
@@ -18,6 +25,8 @@ const Index = ({ auth, errors, roles, permissions }) => {
         setEditingRole(role);
         setShowEditModal(true);
     };
+
+    //
     return (
         <AuthenticatedLayout auth={auth} errors={errors}>
             <Head title="Dashboard" />
@@ -76,12 +85,12 @@ const Index = ({ auth, errors, roles, permissions }) => {
                                 {/* actions dengan edit delet dengan modal */}
                                 <td className="py-3 px-2 text-left">
                                     <Link
-                                        onClick={() =>
-                                            handleShowEditModal(role)
-                                        }
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleShowEditModal(role);
+                                        }}
                                         // href={`role/${role.id}/edit`}
                                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                        preserveState={true}
                                     >
                                         Edit
                                     </Link>
@@ -115,8 +124,14 @@ const Index = ({ auth, errors, roles, permissions }) => {
                         role={editingRole}
                         permissions={permissions}
                         onClose={() => setShowEditModal(false)}
+                        onEditSuccess={handleEditSuccess}
                     />
                 </Modal>
+                {showSuccessMessage && (
+                    <div className="success-message">
+                        Role has been updated successfully!
+                    </div>
+                )}
             </div>
         </AuthenticatedLayout>
     );
