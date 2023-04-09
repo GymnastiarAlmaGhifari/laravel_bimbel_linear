@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@/Components/Modal";
 import Create from "./Create";
 import Edit from "./Edit";
@@ -136,8 +136,11 @@ const Index = ({ auth, errors, roles, permissions }) => {
                     />
                 </Modal>
                 {showSuccessMessage && (
-                    <div className="success-message">
-                        Role has been updated successfully!
+                    // ambul dari apa yang di edit
+                    <div className="fixed top-3 right-0 mb-4 mr-4">
+                        <div className="bg-green-500 text-white font-bold rounded-lg border shadow-lg p-4">
+                            {editingRole.name} has been updated.
+                        </div>
                     </div>
                 )}
             </div>

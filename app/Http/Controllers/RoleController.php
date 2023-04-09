@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateRoleRequest;
-use App\Http\Requests\UpdateRoleRequest;
+use App\Http\Requests\RoleRequest;
 use App\Http\Resources\PermissionResource;
 use App\Http\Resources\RoleResource;
 use Inertia\Inertia;
@@ -21,14 +20,14 @@ class RoleController extends Controller
         ]);
     }
 
-    public function store(CreateRoleRequest $request)
+    public function store(RoleRequest $request)
     {
         $role = Role::create(['name' => $request->name]);
         if ($request->permissions) {
             $role->syncPermissions($request->permissions);
         }
     }
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(RoleRequest $request, Role $role)
     {
         $role->update(['name' => $request->name]);
         $role->syncPermissions($request->permissions);
