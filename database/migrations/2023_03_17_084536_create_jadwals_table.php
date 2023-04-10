@@ -23,7 +23,7 @@ return new class extends Migration
             $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']);
             $table->string('id_sesi');
             $table->string('id_mapel');
-            $table->string('id_tentor');
+            $table->uuid('id_tentor');
             $table->string('id_ruang');
             $table->timestamps();
         });
@@ -43,7 +43,7 @@ return new class extends Migration
             $table->foreign('id')->references('id')->on('jadwals');
             $table->foreign('id_sesi')->references('id')->on('sesis');
             $table->foreign('id_mapel')->references('id')->on('mapels');
-            $table->foreign('id_tentor')->references('id')->on('admins');
+            $table->foreign('id_tentor')->references('id')->on('users');
             $table->foreign('id_ruang')->references('id')->on('ruangs');
             
         });

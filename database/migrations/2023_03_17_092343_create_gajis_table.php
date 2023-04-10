@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('gajis', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('id_admin');
+            $table->uuid('id_user');
             $table->integer('jumlah_gaji');
             $table->dateTime('tanggal_gaji');
             $table->enum('tipe', ['Tunai', 'Transfer']);
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('gajis', function (Blueprint $table) {
-            $table->foreign('id_admin')->references('id')->on('admins');
+            $table->foreign('id_user')->references('id')->on('users');
         });
     }
 
@@ -36,7 +36,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('gajis', function (Blueprint $table) {
-            $table->dropForeign('gajis_id_admin_foreign');
+            $table->dropForeign('gajis_id_user_foreign');
         });
         Schema::dropIfExists('gajis');
     }
