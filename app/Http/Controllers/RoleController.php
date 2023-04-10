@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateRoleRequest;
+use App\Http\Requests\RoleRequest;
 use App\Http\Resources\PermissionResource;
 use App\Http\Resources\RoleResource;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
@@ -21,20 +20,23 @@ class RoleController extends Controller
         ]);
     }
 
-    public function create(): Response
-    {
-        return Inertia::render('Role/Create', [
-            'permissions' => PermissionResource::collection(Permission::all())
-        ]);
-    }
-
-    public function store(CreateRoleRequest $request)
+    public function store(RoleRequest $request)
     {
         $role = Role::create(['name' => $request->name]);
         if ($request->permissions) {
             $role->syncPermissions($request->permissions);
         }
+    }
+    public function update(RoleRequest $request, Role $role)
+    {
+        $role->update(['name' => $request->name]);
+        $role->syncPermissions($request->permissions);
+    }
 
-        return redirect()->route('role.index');
+    public function destroy(Role $role)
+    {
+        $role->delete();
+
+        return redirect()->back()->with('success', 'Role has been deleted.');
     }
 }

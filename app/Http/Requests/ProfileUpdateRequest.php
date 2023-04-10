@@ -20,4 +20,14 @@ class ProfileUpdateRequest extends FormRequest
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
         ];
     }
+    public function messages(): array
+    {
+        return [
+            'name.string' => 'Nama harus berupa string',
+            'name.max' => 'Nama tidak boleh lebih dari 255 karakter',
+            'email.email' => 'Email harus valid',
+            'email.max' => 'Email tidak boleh lebih dari 255 karakter',
+            'email.unique' => 'Email sudah digunakan',
+        ];
+    }
 }
