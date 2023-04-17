@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\SuperController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -42,11 +43,13 @@ Route::middleware(['auth', 'verified', 'role:super'])->group(function () {
     Route::get('/super', [SuperController::class, 'index'])->name('super.index');
     Route::resource('/role', RoleController::class);
     Route::resource('/users', UserController::class);
+    Route::resource('/jadwal', JadwalController::class);
 });
 
 // buat prefix dan middleware can:manage selling
 Route::middleware(['auth', 'verified', 'can:manage delivery'])->group(function () {
     Route::get('/delivery', [DeliveryController::class, 'index'])->name('delivery.index');
 });
+
 
 require __DIR__ . '/auth.php';

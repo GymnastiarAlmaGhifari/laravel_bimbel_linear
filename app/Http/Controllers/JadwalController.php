@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\jadwal;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class JadwalController extends Controller
 {
@@ -12,9 +14,9 @@ class JadwalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): Response
     {
-        //
+        return Inertia::render('Jadwal/Index', []);
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\tagihan;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class TagihanController extends Controller
 {
@@ -12,9 +14,11 @@ class TagihanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): Response
     {
-        //
+        return Inertia::render(
+            'Pembayaran/Index'
+        );
     }
 
     /**
